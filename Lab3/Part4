@@ -1,0 +1,32 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 3
+// Engineer: Courtney Stewart
+// 
+// Create Date: 09/11/2023 09:01:09 PM
+// Design Name: Task 4
+// Module Name: twoBitComparator
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module twoBitComparator(
+    input [1:0] a,
+    input [1:0] b,
+    output Lt,
+    output Gt,
+    output Eq
+    );
+    reg [2:0] ROM [15:0];
+    wire [2:0] out;
+    wire [3:0] in;
+    
+    assign in = {b, a};
+    
+    assign out = ROM[in];
+    assign Lt = out[2];
+    assign Gt = out[1];
+    assign Eq = out[0];
+
+    initial $readmemb ("ROM_data.mem", ROM, 0, 15); //load content from file
+
+endmodule 
