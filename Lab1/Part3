@@ -1,0 +1,35 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 1 Part 3
+// Engineer: Courtney Stewart
+// 
+// Create Date: 08/31/2023 09:26:42 AM
+// Design Name: Two-bit wide 2-to-1 mux using dataflow modeling
+// Module Name: twoBitWideTwoOneMuxDataflow
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module twoBitWideTwoOneMuxDataflow(
+    input [1:0] x,
+    input [1:0] y,
+    input s,
+    input [1:0] m
+    );
+    
+    wire out1Bit0, out1Bit1, out2Bit0, out2Bit1, s1;
+    
+    assign s1 = ~s;             //make s1 equl NOT S
+    
+    assign out1Bit0 = x[0] & s1; //AND bit 0 of x and NOT S
+    assign out1Bit1 = x[1] & s1; //AND bit 1 of x and NOT S
+    
+    assign out2Bit0 = y[0] & s; //AND bit 0 of y and S
+    assign out2Bit1 = y[0] & s; //AND bit 1 of y and S
+   
+   assign #3 m[0] = out1Bit0 || out2Bit0; //OR the bit 0's with 3ns delay
+   assign #3 m[1] = out1Bit1 || out2Bit1; //OR the bit 1's with 3ns delay
+    
+
+    
+endmodule
