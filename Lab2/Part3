@@ -1,0 +1,35 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 2
+// Engineer: Courtney Stewart
+// 
+// Create Date: 09/06/2023 01:46:22 PM
+// Design Name: Task 3
+// Module Name: twoOutOfFiveBinary
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module twoOutOfFiveBinary(
+    input[3:0] code,
+    output reg [4:0] Data
+    );
+    
+    always @ (code)
+        case (code)
+        0           :Data = 5'b00011;
+        1           :Data = 5'b00101;
+        2           :Data = 5'b00110;
+        3           :Data = 5'b01001;
+        4           :Data = 5'b01010;
+        5           :Data = 5'b01100;
+        6           :Data = 5'b10001;
+        7           :Data = 5'b10010;
+        8           :Data = 5'b10100;
+        9           :Data = 5'b11000;
+        default     :Data = 5'bx;
+    endcase
+    
+    
+    
+endmodule
