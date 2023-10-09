@@ -1,0 +1,77 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 2
+// Engineer: Courtney Stewart
+// 
+// Create Date: 09/06/2023 01:42:37 PM
+// Design Name: Task 2
+// Module Name: fourBitBinaryToTwoDigitDecimal
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module fourBitBinaryToTwoDigitDecimal(
+    input [3:0] v,
+    output reg z,
+    output reg [3:0] m_out
+    );
+    
+    always @ (v)
+    begin
+        if(v>9) 
+         begin            //check if v is greater than 9
+            m_out=v-10;       //if it is, we need to subtract 10
+            z=1;          //and set z = 1
+         end   
+        else    
+        begin            
+            m_out=v;        //otherwise m just equals v
+            z=0;        //need to set z = 0
+        end
+    end
+endmodule
+
+
+
+module lab2_2_2 (
+    input [3:0] v,
+    //wire[3:0] decimal, 
+    output z,
+    wire m,
+    output reg [6:0] seg0,
+    
+    output [7:0] TurnOn
+    );
+    
+    
+    fourBitBinaryToTwoDigitDecimal m1 (v, z, m);
+    
+    assign TurnOn = 8'b11111110; //turns on particular 7-segment display
+        
+        always @ (v)
+            case(v)
+            0   :begin seg0 = 7'b0000001;  end
+            1   :begin seg0 = 7'b1001111;  end
+            2   :begin seg0 = 7'b0010010;  end
+            3   :begin seg0 = 7'b0000110;  end
+            4   :begin seg0 = 7'b1001100;  end
+            5   :begin seg0 = 7'b0100100;  end
+            6   :begin seg0 = 7'b0100000;  end
+            7   :begin seg0 = 7'b0001111;  end
+            8   :begin seg0 = 7'b0000000;  end
+            9   :begin seg0 = 7'b0000100;  end
+            10  :begin seg0 = 7'b0000001;  end
+            11  :begin seg0 = 7'b1001111;  end
+            12  :begin seg0 = 7'b0010010;  end
+            13  :begin seg0 = 7'b0000110;  end
+            14  :begin seg0 = 7'b1001100;  end
+            15  :begin seg0 = 7'b0100100;  end
+            default :begin seg0 = 7'b0000000; end
+            endcase 
+    
+    //Everything works except overflow LED for some reason 
+    //check if >10, then turn on overflow LED and case statement
+    //else case statement
+    
+    
+endmodule
