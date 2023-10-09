@@ -1,0 +1,38 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 2
+// Engineer: Courtney Stewart
+// 
+// Create Date: 09/06/2023 01:49:27 PM
+// Design Name: Task 4
+// Module Name: oneBitFullAdder
+// 
+//////////////////////////////////////////////////////////////////////////////////
+module oneBitFullAdder(
+    input a,                    
+    input b,
+    input cin,
+    output cout,
+    output s
+    );
+    wire xor1, and1, and2;
+    assign xor1 = a ^ b;
+    assign and2 = a & b;
+    assign and1 = xor1 & cin;
+    assign cout = and1 | and2;
+    assign s = xor1 ^ cin;
+endmodule
+
+module fourBitRippleCarryAdder(
+    input[3:0] a,
+    input[3:0] b,
+    input cin,
+    output cout,
+    output [3:0] s
+);
+    wire cout1, cout2, cout3;
+oneBitFullAdder(.a(a[0]), .b(b[0]), .cin(cin), .s(s[0]), .cout(cout1));
+oneBitFullAdder(.a(a[1]), .b(b[1]), .cin(cout1), .s(s[1]), .cout(cout2));
+oneBitFullAdder(.a(a[2]), .b(b[2]), .cin(cout2), .s(s[2]), .cout(cout3));
+oneBitFullAdder(.a(a[3]), .b(b[3]), .cin(cout3), .s(s[3]), .cout(cout));
+endmodule
