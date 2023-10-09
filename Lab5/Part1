@@ -1,0 +1,111 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 5
+// Engineer: Courtney Stewart
+// 
+// Create Date: 10/03/2023 06:45:17 PM
+// Design Name: 
+// Module Name: sequenceDetectorMealy
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module sequenceDetectorMealy(
+    input clk,
+    input reset,
+    input ain,
+    output reg yout,
+    output reg [3:0] count
+    );
+      
+    reg[1:0] state, nextState;
+    parameter s0=2'b00, s1=2'b01, s2=2'b10, s3=2'b11;
+     
+    always @(posedge clk or posedge reset)          //always block to update state
+    if(reset)
+        state <= s0;
+    else if (state != nextState)
+    begin
+        state <= nextState; 
+        count = count + 1;
+    end
+    
+    always @(state or ain)                          //always block to compute next state
+    begin
+        nextState = s0;
+        case(state)
+            s0: if(ain == 1)
+                begin
+                    nextState <= s1;
+                end
+                else 
+                begin
+                    nextState <= s0;
+                end
+            
+            s1: if(ain == 1)
+               begin
+                    nextState <= s2;
+                end
+                else
+                begin
+                    nextState <= s1;
+                end
+                    
+            s2: if(ain == 1)
+                begin
+                    nextState <= s3;
+                end
+                else
+                begin
+                    nextState <= s2;
+                end
+            
+            s3: if(ain == 1)
+                begin
+                    nextState <= s1;
+                end
+                else
+                begin
+                    nextState <= s3;
+                end
+                
+            endcase
+    end
+    
+    
+   always @(state or ain)                   //compute output
+    begin 
+       yout = (ain || count == 0) ? ((count % 3 == 0) ? 1'b1 : 1'b0) : 1'b0;
+ //      yout = 0;
+ //      case(state)
+ //      s0: 
+ //         if(ain == 0)
+ //           begin
+ //                yout = 1;
+ //                count[0] = ain;
+ //           end
+ //      
+ //      s1: 
+ //           if (ain == 1)
+ //           begin
+ //               yout = 0;
+ //               count[1] = ain;
+ //           end
+ //               
+ //      s2:  if (ain)
+ //           begin
+ //               yout = 1;   
+ //               count[2] = ain;
+ //           end     
+ //      
+ //      s3:
+ //           if (ain == 1)
+ //           begin
+ //               yout = 0;
+ //               count[3] = ain;
+ //           end   
+ //      
+ //      endcase
+    end
+      
+endmodule
