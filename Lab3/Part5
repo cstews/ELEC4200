@@ -1,0 +1,29 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 3
+// Engineer: Courtney Stewart
+// 
+// Create Date: 09/11/2023 09:03:15 PM
+// Design Name: Task 5
+// Module Name: twoByTwoBitMultiplier
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module twoByTwoBitMultiplier(
+    input [1:0] a,
+    input [1:0] b,
+    output [3:0] product
+    );
+    
+    reg [3:0] ROM [15:0];
+    wire [3:0] out;
+    wire [3:0] in;
+    
+    assign in = {b, a};
+    
+    assign out = ROM[in];
+    assign product = out;
+    
+    initial $readmemb ("memData.mem", ROM, 0, 15); //load content from file
+    
+endmodule
