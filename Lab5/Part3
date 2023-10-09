@@ -1,0 +1,41 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 5
+// Engineer: Courtney Stewart
+// 
+// Create Date: 10/03/2023 06:49:01 PM
+// Design Name: 
+// Module Name: countsCounterMealy
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module countsCounterMealy(
+    input clk,
+    input reset,
+    output reg [2:0] count
+    );
+    
+    reg [2:0] state;
+    reg [2:0] nextState;
+    
+    
+    reg [2:0] ROM [5:0];
+    
+    initial $readmemb ("memFileLab5.mem", ROM); //load content from file  
+     
+    always @(posedge clk or posedge reset)
+        state <= (reset) ? 0 : nextState;
+    
+    always @(state)
+       begin                           //next state always block
+        nextState = state + 1;
+        
+       
+        if (state >= 5)
+            nextState = 0;
+        end
+    
+    always @(state)                       //output always block
+        count = ROM[state];
+
+endmodule
