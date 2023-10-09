@@ -1,0 +1,30 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 1 Part 4
+// Engineer: Courtney Stewart
+// 
+// Create Date: 08/31/2023 09:42:19 AM
+// Design Name: Two-bit wide mux with behavioral modeling
+// Module Name: twoBitWideTwoOneMuxBehavioral
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module twoBitWideTwoOneMuxBehavioral(
+    input [1:0] x,
+    input [1:0] y,
+    input s,
+    output reg [1:0]m
+    );
+    
+    
+    always @ (x or y or s)
+    begin
+        if(s==0)
+            m=y;
+        else
+            m=x;
+    end
+    
+    
+endmodule
