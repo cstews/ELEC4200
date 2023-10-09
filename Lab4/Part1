@@ -1,0 +1,22 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 4
+// Engineer: Courtney Stewart
+// 
+// Create Date: 09/19/2023 08:04:33 PM
+// Design Name: lab 4 Task 1
+// Module Name: SRLatch
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module SRLatch(
+    input S,
+    output Q,
+    output Qbar,
+    input R
+    );
+    
+    nor(Q, R, Qbar);
+    nor(Qbar, S, Q);
+  
+endmodule
