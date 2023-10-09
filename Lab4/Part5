@@ -1,0 +1,63 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 4
+// Engineer: Courtney Stewart
+// 
+// Create Date: 09/19/2023 08:23:03 PM
+// Design Name: Lab 4 Task 5
+// Module Name: task5
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module DLatchBehavioral(
+    input D,
+    input Clk,
+    output reg Qa
+    );
+    
+    always @ (Clk or D)
+    if (Clk)
+        begin
+            Qa <= D;
+    end
+endmodule
+
+
+module DFlipFlopRising(
+    input D,
+    input Clk,
+    output reg Qb
+    );
+
+    always @ (posedge Clk)
+    if (Clk)
+    begin
+        Qb <= D;
+    end
+endmodule
+
+module DFlipFlopFalling(
+    input D,
+    input Clk,
+    output reg Qc
+    );
+
+    always @ (negedge Clk)
+    if (~Clk)
+    begin
+        Qc <= D;
+    end
+endmodule
+
+module Task5(
+    input D,
+    input Clk,
+    output Qa, Qb, Qc
+);
+
+DLatchBehavioral DA(.D(D), .Clk(Clk), .Qa(Qa));
+DFlipFlopRising DB (.D(D), .Clk(Clk), .Qb(Qb));
+DFlipFlopFalling DC (.D(D), .Clk(Clk), .Qc(Qc));
+
+endmodule
