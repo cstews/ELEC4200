@@ -1,0 +1,30 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 4
+// Engineer: Courtney Stewart
+// 
+// Create Date: 09/19/2023 08:15:59 PM
+// Design Name: Lab 4 Task 3
+// Module Name: DLatch
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module DLatch(
+    input D,
+    input Enable,
+    output reg Q,
+    output reg Qbar
+    );
+
+    
+    always @ (D or Enable)
+      if(Enable)
+      begin
+         Q <= D;
+         Qbar <= ~D;
+    end
+    
+    
+    
+endmodule
