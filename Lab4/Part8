@@ -1,0 +1,25 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 4
+// Engineer: Courtney Stewart
+// 
+// Create Date: 09/19/2023 08:36:05 PM
+// Design Name: Lab 4 Task 8
+// Module Name: TFlipFlop
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module TFlipFlop(
+    input Clk,
+    input reset_n,
+    input T,
+    output reg Q
+    );
+    
+    always @(negedge Clk)
+        if (!reset_n)
+          Q <= 1'b0;
+        else if (T)
+           Q <= ~Q;
+    
+endmodule
