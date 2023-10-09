@@ -1,0 +1,30 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 4
+// Engineer: Courtney Stewart
+// 
+// Create Date: 09/19/2023 08:32:45 PM
+// Design Name: Lab 4 Task 7
+// Module Name: DFlipFlopSynchronousResetClkEnable
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module DFlipFlopSynchronousResetClkEnable(
+    input D,
+    input Clk,
+    input reset,
+    input ce,
+    output reg Q
+    );
+    
+    always @(posedge Clk)
+        if (reset)
+         begin
+             Q <= 1'b0;
+         end else if (ce)
+         begin
+             Q <= D;
+    end
+    
+endmodule
