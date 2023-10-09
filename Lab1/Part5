@@ -1,0 +1,33 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 1 Part 5
+// Engineer: Courtney Stewart
+// 
+// Create Date: 08/31/2023 10:07:04 AM
+// Design Name: 3-to-1 mux
+// Module Name: threeToOneMux
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module threeToOneMux(
+    input u,
+    input v,
+    input w,
+    input [1:0] s,
+    output reg m
+    );
+    
+    
+    always @ (u or v or w or s)
+    begin 
+        if(s==2'b00)
+            m=u;
+        else if(s==2'b01)
+            m=v;
+        else
+            m=w;
+    end            
+
+
+endmodule
