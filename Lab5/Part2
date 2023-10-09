@@ -1,0 +1,55 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 5
+// Engineer: Courtney Stewart
+// 
+// Create Date: 10/03/2023 06:46:59 PM
+// Design Name: 
+// Module Name: sequenceDetectorMoore
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module sequenceDetectorMoore(
+    input clk,
+    input reset,
+    input [1:0] ain,
+    output reg yout
+    );
+    
+    reg [1:0] state, nextState;
+    
+    parameter s0=0, s1=1, s2=2, s3=3;
+    
+    always @(posedge clk or posedge reset)          //always block to update state
+    begin
+    if (reset)
+        state <= s0;
+    else
+        state <= nextState;
+   end
+        
+    always @(state)                                 // always block to compute output
+    begin
+        case(state)
+            s0: yout = 1'b0;
+            s1: yout = 1'b0;
+            s2: yout = 1'b1;
+            s3: yout = 1'b1;
+        endcase
+    end
+    
+    always @(state or ain)                      //always block to compute nextstate
+    begin
+        case(state)
+            s0: nextState = (ain == 2'b11 || ain == 2'b10) ? s1 : s0;
+                    
+            s1: nextState = ((ain == 2'b00) ? s2 : (ain == 2'b01) ? s0 : s1);
+       
+            s2: nextState = (ain == 2'b01 || ain == 2'b10) ? s3 : s2;
+            
+            s3: nextState = ((ain == 2'b11) ? s2 : (ain == 2'b00) ? s0 : s3);    
+         endcase
+    end
+    
+     
+endmodule
