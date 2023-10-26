@@ -1,0 +1,35 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 7
+// Engineer: Courtney Stewart
+// 
+// Create Date: 10/18/2023 02:31:53 PM
+// Design Name: Task 8
+// Module Name: fourBitDownCounter 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module fourBitDownCounter(
+    input clk,
+    input Enable,
+    input Clear,
+    input Load,
+    output [3:0] Q
+    );
+    
+    reg [3:0] count;
+    wire cnt_done;
+    
+    assign cnt_done = ~| count;
+    assign Q = count;
+    
+    always @(posedge clk)
+        if (Clear)
+            count <= 0;
+        else if (Enable)
+            if (Load | cnt_done)
+                count <= 4'b1010;
+            else
+                count <= count - 1;
+
+endmodule
