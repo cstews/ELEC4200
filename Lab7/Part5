@@ -1,0 +1,29 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 7
+// Engineer: Courtney Stewart
+// 
+// Create Date: 10/18/2023 02:27:44 PM
+// Design Name: Task 5
+// Module Name: fourBitSerial
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module fourBitSerial(
+    input clk,
+    input ShiftEn,
+    input ShiftIn,
+    output [3:0] ParallelOut,
+    output ShiftOut
+    );
+    
+   reg [3:0] shift_reg;
+    
+    always @(posedge clk)
+        if (ShiftEn)
+            shift_reg <= {shift_reg[2:0], ShiftIn};
+        
+        assign ShiftOut = shift_reg[3];    
+        assign ParallelOut = shift_reg;    
+    
+endmodule
