@@ -1,0 +1,102 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 8
+// Engineer: Courtney Stewart
+// 
+// Create Date: 10/25/2023 06:53:21 PM
+// Design Name: Three colors traffic lights and pedestrian crossing
+// Module Name: Task3
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module task3(
+    input CLK100MHZ,
+    input pedX,
+    input reset,
+    output reg [2:0] NSRoad,
+    output reg [2:0] EWRoad
+    );
+    
+    reg [3:0] state;
+    parameter s0=0, s1=1, s2=2, s3=3, s4=4, s5=5, s6=6, s7=7, s8=8, s9=9;
+    wire clk_out1;
+    integer clkCount;
+    reg clk1Hz;
+    
+    clk_wiz_0 oneHz
+       (
+        .clk_out1(clk_out1),     
+     
+         .reset(reset),
+     
+        .locked(),           // output locked
+        // Clock in ports
+        .clk_in1(CLK100MHZ));      // input clk_in1
+    
+    
+    always @(posedge clk_out1)              //make clock divider thats 1Hz
+              begin
+              clkCount = clkCount + 1;
+              if (clkCount > 2500000)
+                  begin
+                      clkCount = 0;
+                      clk1Hz = !clk1Hz;
+                  end 
+              end
+    
+    always @(posedge clk1Hz or posedge reset or posedge pedX)
+        begin
+            if(reset)
+                begin
+                    state = s0;
+                end
+            else if(pedX)
+                begin
+                case(state)
+                    s0, s1, s2, s3, s4: state <= s4;
+                    s5, s6, s7, s8, s9: state <= s9;
+                endcase
+                end
+            else if (state < 9)
+                    state = state + 1;
+            else state = 0;     
+        end
+    
+    always @(state)                 //determine output for states
+        begin
+        case(state)
+            s0, s1, s2:
+                begin
+                    NSRoad = 3'b010;
+                    EWRoad = 3'b001;
+                end
+            s3:
+                begin
+                    NSRoad = 3'b010;
+                    EWRoad = 3'b100;
+                end
+            s4:
+                begin
+                    NSRoad = 3'b010;
+                    EWRoad = 3'b010;
+                end
+            s5, s6, s7:
+                begin
+                    NSRoad = 3'b001;
+                    EWRoad = 3'b010;
+                end
+            s8:
+                begin
+                    NSRoad = 3'b100;
+                    EWRoad = 3'b010;
+                end
+            s9:
+                begin
+                    NSRoad = 3'b010;
+                    EWRoad = 3'b010;
+                end
+        endcase
+    end
+    
+    
+endmodule
