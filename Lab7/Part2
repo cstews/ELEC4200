@@ -1,0 +1,36 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 7
+// Engineer: Courtney Stewart
+// 
+// Create Date: 10/18/2023 02:22:53 PM
+// Design Name: Task 2
+// Module Name: fourBitRegisterTheSecondOne
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module fourBitRegisterTheSecondOne(
+    input clk,
+    input [3:0] D,
+    input reset,
+    input set,
+    input load,
+    output reg [3:0] Q
+    );
+
+    //priority: reset, then set,then load
+    //set is for assigning to predetermined value
+
+    always @(posedge clk)
+        if(reset)
+        begin
+            Q <= 4'b0;
+        end else if (set)
+        begin
+            Q <= 4'b0100;
+        end else if (load)
+        begin
+            Q <= D;
+        end
+    
+endmodule
