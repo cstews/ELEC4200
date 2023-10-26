@@ -1,0 +1,34 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn Univeristy ELEC4200 Lab 6
+// Engineer: Courtney Stewart
+// 
+// Create Date: 10/09/2023 12:11:05 PM
+// Design Name: Task 1
+// Module Name: Task1OneBitWideFourToOneMux
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module Task1OneBitWideFourToOneMux(
+    input a, b, c, d,
+    input [1:0] select,
+    output reg yout
+    );
+    
+    
+    always@(a or b or c or d or select)
+    begin
+    if (select == 2'b00)
+        yout = a;
+    
+    if (select == 2'b01)
+        yout = b;
+        
+    if (select == 2'b10)
+        yout = c;
+        
+    if (select == 2'b11)
+        yout = d;
+    end
+    
+endmodule
