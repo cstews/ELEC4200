@@ -1,0 +1,30 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 7
+// Engineer: Courtney Stewart
+// 
+// Create Date: 10/18/2023 02:21:05 PM
+// Design Name: Task 1
+// Module Name: fourBitRegister
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module fourBitRegister(
+    input clk,
+    input [3:0] D,
+    input reset,
+    input load,
+    output reg [3:0] Q
+    );
+    
+    //sync reset and load
+    always @(posedge clk)
+        if(reset)
+        begin
+            Q <= 4'b0;
+        end else if (load)
+        begin
+            Q <= D;
+        end
+    
+endmodule
