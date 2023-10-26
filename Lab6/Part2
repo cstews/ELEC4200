@@ -1,0 +1,44 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 6
+// Engineer: Courtney Stewart
+// 
+// Create Date: 10/09/2023 12:13:29 PM
+// Design Name: Task 2
+// Module Name: Task2GrayCodeGenerator
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module Task2GrayCodeGenerator(
+    input [3:0] ain,
+    input enable,
+    output reg [3:0] yout,
+    output reg enableFalse
+    );
+    
+    always@(ain or enable)
+    if(enable)
+    begin
+        enableFalse = 1'b0;
+        case(ain)
+            4'b0000 : yout = 4'b0000;
+            4'b0001 : yout = 4'b0001;
+            4'b0010 : yout = 4'b0011;
+            4'b0011 : yout = 4'b0010;
+            4'b0100 : yout = 4'b0110;
+            4'b0101 : yout = 4'b0111;
+            4'b0110 : yout = 4'b0101;
+            4'b0111 : yout = 4'b0100;
+            4'b1000 : yout = 4'b1100;
+            4'b1001 : yout = 4'b1101;
+            4'b1010 : yout = 4'b1111;  
+        endcase
+    end
+            
+    else 
+        begin
+            yout = 4'b1111;
+            enableFalse = 1'b1;
+        end
+        
+endmodule
