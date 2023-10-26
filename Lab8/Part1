@@ -1,0 +1,85 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 8
+// Engineer: Courtney Stewart
+// 
+// Create Date: 10/25/2023 06:51:48 PM
+// Design Name: two light colors traffic lights
+// Module Name: task1
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module task1(
+    input CLK100MHZ,
+    input reset,
+    output reg [1:0] NSRoad,
+    output reg [1:0] EWRoad
+    );
+    
+    reg state;
+    parameter s0=0, s1=1;
+    
+    wire clk_out1;
+    integer clkCount = 0;
+    
+    reg clk1Hz;
+    
+    //reg [2:0] timer;
+    
+    clk_wiz_0 oneHz
+       (
+        .clk_out1(clk_out1),     
+     
+         .reset(reset),
+     
+        .locked(),           // output locked
+        // Clock in ports
+        .clk_in1(CLK100MHZ));      // input clk_in1
+    
+    
+      always @(posedge clk_out1)              //make clock divider thats 1Hz
+            begin
+            clkCount = clkCount + 1;
+            if (clkCount > 7500000)
+                begin
+                    clkCount <= 0;
+                    clk1Hz <= !clk1Hz;
+                    //timer <= timer + 1;
+                end 
+            end
+            
+      always @(posedge clk1Hz or posedge reset)                          //every 3 clock pulses change states
+         begin
+            if(reset)
+                begin
+                    //timer <= 0;
+                    state <= s0;
+                end
+            else
+            //else if (timer >= 3)
+                begin
+                //timer = 0;
+                case(state)
+                    s0: state <= s1;
+                    s1: state <= s0;
+                    endcase
+                end
+         end
+     
+         
+    always @(state)                            //determine output for states
+        begin
+        case (state)
+            s0: begin
+                    NSRoad <= 2'b01;
+                    EWRoad <= 2'b10;
+                end
+            s1: begin
+                    NSRoad <= 2'b10;
+                    EWRoad <= 2'b01;
+                end
+        endcase
+     end
+        
+    
+endmodule
