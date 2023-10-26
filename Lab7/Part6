@@ -1,0 +1,61 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 7
+// Engineer: Courtney Stewart
+// 
+// Create Date: 10/18/2023 02:29:07 PM
+// Design Name: Task 6
+// Module Name: eightBitCounter
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module eightBitCounter(
+    input clk,
+    input Clear_n,
+    input Enable,
+    output [7:0] Q
+    );
+    
+    wire ten1, ten2, ten3, ten4, ten5, ten6, ten7;
+    
+    TFlipFlop T1 (.Clk(clk), .reset_n(Clear_n), .T(Enable), .Q(Q[0]));
+    assign ten1 = Enable & Q[0];
+    
+    TFlipFlop T2 (.Clk(clk), .reset_n(Clear_n), .T(ten1), .Q(Q[1]));
+    assign ten2 = ten1 & Q[1];
+    
+    TFlipFlop T3 (.Clk(clk), .reset_n(Clear_n), .T(ten2), .Q(Q[2]));
+    assign ten3 = ten2 & Q[2];
+    
+    TFlipFlop T4 (.Clk(clk), .reset_n(Clear_n), .T(ten3), .Q(Q[3]));
+    assign ten4 = ten3 & Q[3];
+    
+    TFlipFlop T5 (.Clk(clk), .reset_n(Clear_n), .T(ten4), .Q(Q[4]));
+    assign ten5 = ten4 & Q[4];
+    
+    TFlipFlop T6 (.Clk(clk), .reset_n(Clear_n), .T(ten5), .Q(Q[5]));
+    assign ten6 = ten5 & Q[5];
+    
+    TFlipFlop T7 (.Clk(clk), .reset_n(Clear_n), .T(ten6), .Q(Q[6]));
+    assign ten7 = ten6 & Q[6];
+    
+    TFlipFlop T8 (.Clk(clk), .reset_n(Clear_n), .T(ten7), .Q(Q[7]));
+
+    
+endmodule
+
+
+module TFlipFlop(
+    input Clk,
+    input reset_n,
+    input T,
+    output reg Q
+    );
+    
+    always @(posedge Clk)
+        if (!reset_n)
+          Q <= 1'b0;
+        else if (T)
+           Q <= ~Q;
+    
+endmodule
