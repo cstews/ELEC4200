@@ -1,0 +1,56 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 6
+// Engineer: Courtney Stewart
+// 
+// Create Date: 10/09/2023 12:17:06 PM
+// Design Name: Task 3
+// Module Name: Task3OneSecondPulseGenerator
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module Task3OneSecondPulseGenerator(
+    input CLK100MHZ,
+    input reset,
+    input enable,
+    output reg Q,
+    output DCM
+    );
+    
+    wire clk_out1;
+    
+    integer clkDivider;
+    
+    
+      clk_wiz_0 fiveMHz
+       (
+        // Clock out ports
+        .clk_out1(clk_out1),     // output clk_out1
+        // Status and control signals
+        
+       // .reset(reset),
+        
+        .locked(DCM),           // output locked
+       // Clock in ports
+        .clk_in1(CLK100MHZ));      // input clk_in1
+     
+    // INST_TAG_END ------ End INSTANTIATION Template ---------
+
+    
+    
+    always @(posedge clk_out1 or posedge reset)
+    begin
+        if (reset)
+        begin
+            clkDivider <= 0;
+        end
+        
+        else if (!reset && enable)
+            begin
+                clkDivider <= (clkDivider > 4999999) ? 0 : clkDivider + 1;
+                if (!clkDivider)
+                    Q <= ~Q;
+            end
+    end
+            
+endmodule
