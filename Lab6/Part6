@@ -1,0 +1,65 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Auburn University ELEC4200 Lab 6
+// Engineer: Courtney Stewart
+// 
+// Create Date: 10/15/2023 09:03:08 PM
+// Design Name: Task 6
+// Module Name: carryLookAhead
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module carryLookAhead(
+	input [3:0] a,
+	input [3:0] b,
+	input cin,
+	output [3:0] s,
+	output cout
+);
+ 
+parameter ADD_DELAY=2, INV_DELAY=1, AND_DELAY=3, OR_DELAY=3, XOR_DELAY=4;	
+
+wire c1, c2, c3;
+wire fastCarry1, fastCarry2, fastCarry3;
+
+wire [2:0] anb, arb, cinna;
+and #AND_DELAY(anb[0], a[0], b[0]);
+or #OR_DELAY (arb[0], a[0], b[0]);
+and #AND_DELAY(cinna[0], arb[0], cin);
+or #OR_DELAY(fastCarry1, anb[0], cinna[0]);
+
+and #AND_DELAY(anb[1], a[1], b[1]);
+or #OR_DELAY (arb[1], a[1], b[1]);
+and #AND_DELAY(cinna[1], arb[1], c1);
+or #OR_DELAY(fastCarry2, anb[1], cinna[1]);
+
+and #AND_DELAY(anb[2], a[2], b[2]);
+or #OR_DELAY (arb[2], a[2], b[2]);
+and #AND_DELAY(cinna[2], arb[2], c2);
+or #OR_DELAY(fastCarry3, anb[2], cinna[2]);
+
+fullAdder #(ADD_DELAY) M1 (a[0], b[0], cin, s[0], c1);
+fullAdder #(ADD_DELAY) M2 (a[1], b[1], fastCarry1, s[1], c2);
+fullAdder #(ADD_DELAY) M3 (a[2], b[2], fastCarry2, s[2], c3);
+fullAdder #(ADD_DELAY) M4 (a[3], b[3], fastCarry3, s[3], cout);
+
+endmodule
+
+module fullAddder #(parameter ADD_DELAY=2) (
+	input a, 
+	input b, 
+	input cin,
+	output s, 
+	output cout
+);
+
+wire nd1, nd2, nr3
+
+xor #ADD_DELAY (s, a, b, cin);
+and #ADD_DELAY(nd1, a, b);
+xor #ADD_DELAY(nr3, a, b);
+and #ADD_DELAY(nd2, cin, nr3);
+or #ADD_DELAY(cout, nd1, nd2);
+
+endmodule
+
