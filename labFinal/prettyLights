@@ -1,0 +1,64 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: Courtney Stewart
+// Engineer: ELEC4200 Final Lab
+// 
+// Create Date: 11/30/2023 12:33:21 AM
+// Module Name: prettyLights2ElectricBoogaloo
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module prettyLights2ElectricBoogaloo(
+    input redInput,
+    input blueInput,
+    input greenInput,
+    input CLK100MHZ,
+    input increment,
+    input decrement,
+    output redOut,
+    output blueOut,
+    output greenOut
+    );
+    
+    wire clk_out1;
+    reg [3:0] state = 0;
+    reg [3:0] redState = 0, greenState = 0, blueState = 0;
+    reg [20:0] count = 0;
+    wire clkDivider;
+    
+      clk_wiz_0 fiveMHz
+     (
+      .clk_out1(clk_out1),     // output clk_out1
+      .clk_in1(CLK100MHZ));      // input clk_in1
+    
+    always @(posedge clk_out1)
+        begin
+            count <= count + 1;
+            state <= state + 1;
+        end
+     
+     always @(posedge clkDivider)
+        begin   
+                    if(increment)
+                        begin
+                           if (redInput) redState <= redState + 1;
+                           if (greenInput) greenState <= greenState + 1;
+                           if (blueInput) blueState <= blueState + 1;
+                        end
+                     if(decrement)
+                        begin
+                            if (redInput) redState <= (redState == 0) ? 15 : redState - 1;
+                            if (greenInput) greenState <= (greenState == 0) ? 15 : greenState - 1;
+                            if (blueInput) blueState <= (blueState == 0) ? 15 : blueState - 1;
+                        end                        
+        end
+   
+   
+        assign clkDivider = count[19];
+   
+        assign redOut = state < redState;
+        assign blueOut = state < blueState;
+        assign greenOut = state < greenState;
+   
+    
+endmodule
